@@ -8,7 +8,8 @@
 :revnumber: 0.1
 :revdate: 2018/12/16
 
-= Grapeとは何か
+[.lead]
+APIを簡単に作ることができるライブラリの一つです。
 
 - RubyのREST-likeなAPIフレームワーク
 - *link:Rack.html[Rack]* 上で動作するように設計
@@ -19,8 +20,26 @@
 - http://www.ruby-grape.org/[Web Site]
 
 == Grape インストール
+https://study.yambal.net/Gem.html#gemfile[Gemfile] に記述
 ----
 gem install grape
 ----
+https://study.yambal.net/Gem.html#gemfile#gem[gem] を https://study.yambal.net/Gem.html#gemfile#Bundler[Bundler] でインストール
+----
+bundle install
+----
+
+== 定義ファイル
+https://study.yambal.net/RubyApplication.html#application-rb[application.rb] に以下を追記し、apiフォルダ内のソースを読み込む。
+----
+config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+----
+
 
 rails5でapiモードができているのでそちらを参照されたほうが良いと思います
+
+== 参考資料
+* https://qiita.com/kadotami/items/6cd455122acedf9510f2[Rails(Grape)でAPIを作成する備忘録1 @Qiita]
+* https://qiita.com/takusemba/items/a86796aa3c207155c579[railsでGrapeを使ってAPI作成、プラス例外処理 @Qiita]
+* https://dev.classmethod.jp/server-side/ruby-on-rails/ruby-on-rails_create_grape_web-api/[Grapeを使ってWeb APIを作成する @DevelopersIO]

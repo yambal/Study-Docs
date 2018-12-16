@@ -1,0 +1,45 @@
+:lang: ja
+:doctype: book
+:toc-title: 目次
+:toc: left
+:sectnums:
+:docname: application.rb の役割
+:author: やまもとじゅん
+:revnumber: 0.1
+:revdate: 2018/12/17
+
+= application.rb の役割
+
+[.lead]
+すべての環境で共通の設定ファイル
+
+== 概要
+Railsでは、config/以下の設定ファイルによって設定を変更できる。
+
+=== 特徴
+* 「config.パラメータ名 = 値」の形式で設定
+* 設定を反映するには、サーバの再起動が必要
+* 文字コードは、UTF-8
+
+[application-rb]
+=== application.rb について
+すべての環境で共通の設定ファイル
+
+== libディレクトリを使うときはconfig.paths.addを使う
+NOTE: Rails5からproduction環境でのみAutoloadが廃止になった
+----
+config.autoload_paths += %W( #{Rails.root}/lib )
+----
+autoloadはされるが *eager_load* はされない
+----
+config.paths.add "#{Rails.root}/lib", eager_load: true
+----
+と書くとeager_loadもされる
+
+=== eager_load
+Railsのapp以下にあるクラス(ModelやController)をブート時に全て読み込む
+
+== 参考資料
+https://railsguides.jp/configuring.html[Railsアプリを設定する @Rails Guides]
+http://railsdoc.com/config[設定ファイル(config) @Railsドキュメント]
+https://qiita.com/okuramasafumi/items/92a422db35642acb1691[Railsでlibディレクトリを使うときはconfig.paths.addを使おう @Qiita]

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
 <meta name="author" content="やまもとじゅん">
-<title>Gem, Bundle, Gememfile</title>
+<title>application.rb の役割</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -433,31 +433,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Gem, Bundle, Gememfile</h1>
+<h1>application.rb の役割</h1>
 <div class="details">
 <span id="author" class="author">やまもとじゅん</span><br>
 <span id="revnumber">version 0.1,</span>
-<span id="revdate">2018/12/16</span>
+<span id="revdate">2018/12/17</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">目次</div>
 <ul class="sectlevel1">
-<li><a href="#_概要">1. 概要</a></li>
-<li><a href="#_bundler">Bundler</a>
+<li><a href="#_概要">1. 概要</a>
 <ul class="sectlevel2">
-<li><a href="#_bundlerのインストール">Bundlerのインストール</a></li>
-<li><a href="#_gemfile生成">Gemfile生成</a></li>
-<li><a href="#_gemのインストール">gemのインストール</a></li>
-<li><a href="#_gemのバージョンアップ">gemのバージョンアップ</a></li>
+<li><a href="#_特徴">1.1. 特徴</a></li>
+<li><a href="#_application_rb_について">application.rb について</a></li>
 </ul>
 </li>
-<li><a href="#_gememfile">Gememfile</a>
+<li><a href="#_libディレクトリを使うときはconfig_paths_addを使う">2. libディレクトリを使うときはconfig.paths.addを使う</a>
 <ul class="sectlevel2">
-<li><a href="#_記述方法">記述方法</a></li>
-<li><a href="#_gemfile_lock">Gemfile.lock</a></li>
+<li><a href="#_eager_load">2.1. eager_load</a></li>
 </ul>
 </li>
-<li><a href="#_rubygems_と_npm">2. RubyGems と npm</a></li>
+<li><a href="#_参考資料">3. 参考資料</a></li>
 </ul>
 </div>
 </div>
@@ -465,52 +461,43 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph lead">
-<p>RubyGemsは、Ruby言語用のパッケージ管理システムであり、Rubyのプログラムと（"gem" と呼ばれる）ライブラリの配布用標準フォーマットを提供している。gemを容易に管理でき、gemを配布するサーバの機能も持つ。Rubyバージョン1.9以降では標準ライブラリの一部となっている。</p>
+<p>すべての環境で共通の設定ファイル</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_概要">1. 概要</h2>
 <div class="sectionbody">
-<div class="dlist">
-<dl>
-<dt class="hdlist1">RubyGems</dt>
-<dd>
-<p>Rubyにおけるパッケージ管理システム。Rubyバージョン1.9以降では標準ライブラリ</p>
-</dd>
-<dt class="hdlist1"><a id="gem"></a>gem（パッケージ）</dt>
-<dd>
-<p><strong>RubyGems</strong> でインストール可能なライブラリやコマンドをまとめたもの。</p>
-</dd>
-<dt class="hdlist1">Bundler</dt>
-<dd>
-<p>プロジェクト内で <strong>gem</strong> 同士の互換性を保ちながらパッケージの種類やバージョンを管理する。</p>
-</dd>
-<dt class="hdlist1">Gememfile</dt>
-<dd>
-<p>gemのカタログファイル。Bundler用の設定ファイル。Railsで使用するGemの依存関係を管理するファイル。</p>
-</dd>
-</dl>
+<div class="paragraph">
+<p>Railsでは、config/以下の設定ファイルによって設定を変更できる。</p>
+</div>
+<div class="sect2">
+<h3 id="_特徴">1.1. 特徴</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>「config.パラメータ名 = 値」の形式で設定</p>
+</li>
+<li>
+<p>設定を反映するには、サーバの再起動が必要</p>
+</li>
+<li>
+<p>文字コードは、UTF-8</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_application_rb_について">application.rb について</h3>
+<div class="paragraph">
+<p>すべての環境で共通の設定ファイル</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bundler">Bundler</h2>
+<h2 id="_libディレクトリを使うときはconfig_paths_addを使う">2. libディレクトリを使うときはconfig.paths.addを使う</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>プロジェクト内で <strong>gem</strong> 同士の互換性を保ちながらパッケージの種類やバージョンを管理する。</p>
-</div>
-<div class="sect2">
-<h3 id="_bundlerのインストール">Bundlerのインストール</h3>
-<div class="paragraph">
-<p>Bundler も gem パッケージです</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>gem install Bundler
-bundle -v （バージョン確認）</pre>
-</div>
-</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -518,122 +505,50 @@ bundle -v （バージョン確認）</pre>
 <div class="title">Note</div>
 </td>
 <td class="content">
-Bundler本体以外の <strong>gem</strong> は基本的にBundler経由でインストールを行うのが望ましい
+Rails5からproduction環境でのみAutoloadが廃止になった
 </td>
 </tr>
 </table>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre>config.autoload_paths += %W( #{Rails.root}/lib )</pre>
 </div>
-<div class="sect2">
-<h3 id="_gemfile生成">Gemfile生成</h3>
+</div>
 <div class="paragraph">
-<p>Gemfile をもとにgemを管理していく。<strong>Gemfile</strong> が無い場合は生成する。必要なgemは <strong>Gemfile</strong> に記述する。</p>
+<p>autoloadはされるが <strong>eager_load</strong> はされない</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bundle init</pre>
+<pre>config.paths.add "#{Rails.root}/lib", eager_load: true</pre>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_gemのインストール">gemのインストール</h3>
 <div class="paragraph">
-<p>生成・記述した <strong>Gemfile</strong> をもとにgemをインストールする</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>bundle install</pre>
-</div>
-</div>
+<p>と書くとeager_loadもされる</p>
 </div>
 <div class="sect2">
-<h3 id="_gemのバージョンアップ">gemのバージョンアップ</h3>
-<div class="listingblock">
-<div class="content">
-<pre>bundle update（gemのバージョンアップ）</pre>
-</div>
+<h3 id="_eager_load">2.1. eager_load</h3>
+<div class="paragraph">
+<p>Railsのapp以下にあるクラス(ModelやController)をブート時に全て読み込む</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_gememfile">Gememfile</h2>
+<h2 id="_参考資料">3. 参考資料</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>gem</strong> のカタログファイル。<strong>Bundler</strong> 用の設定ファイル。<br>
-Bundlerは <strong>Gemfile</strong> の記述にしたがって、依存関係を示した <strong>Gemfile.lock</strong> を生成する。</p>
+<p><a href="https://railsguides.jp/configuring.html">Railsアプリを設定する @Rails Guides</a>
+<a href="http://railsdoc.com/config">設定ファイル(config) @Railsドキュメント</a>
+<a href="https://qiita.com/okuramasafumi/items/92a422db35642acb1691">Railsでlibディレクトリを使うときはconfig.paths.addを使おう @Qiita</a></p>
 </div>
-<div class="sect2">
-<h3 id="_記述方法">記述方法</h3>
-<div class="listingblock">
-<div class="content">
-<pre>gem ライブラリ名 [, バージョン, オプション]</pre>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_記述例">記述例</h4>
-<div class="listingblock">
-<div class="content">
-<pre>gem "nokogiri"             # 最新版
-gem "rails", "3.0.0.beta3" # 固定
-gem "rack",  "&gt;=1.0"       # 1.0以降
-gem "thin",  "~&gt;1.1"       # 1.1以降2.0以前</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_gemfile_lock">Gemfile.lock</h3>
-<div class="paragraph">
-<p>Gemfile から、依存 gem も含めたカタログを生成したもの</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_rubygems_と_npm">2. RubyGems と npm</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>それぞれの役割をnpmで例えると分かりやすいかもしれない</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">-</th>
-<th class="tableblock halign-left valign-top">Bundler</th>
-<th class="tableblock halign-left valign-top">npm</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">カタログ</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gemfile</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">package.json</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">依存について</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gemfile.lock</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">package-lock.json</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ライブラリの実体</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(グローバル)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">node_modules</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2018-12-17 00:11:41 +0900
+Last updated 2018-12-17 00:52:31 +0900
 </div>
 </div>
 </body>

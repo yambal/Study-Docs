@@ -5,8 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="やまもとじゅん">
-<title>Grapeとは何か</title>
+<title>オフィシャルな情報源</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -433,23 +432,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Grapeとは何か</h1>
-<div class="details">
-<span id="author" class="author">やまもとじゅん</span><br>
-<span id="revnumber">version 0.1,</span>
-<span id="revdate">2018/12/16</span>
-</div>
 <div id="toc" class="toc2">
 <div id="toctitle">目次</div>
 <ul class="sectlevel1">
 <li><a href="#_オフィシャルな情報源">1. オフィシャルな情報源</a></li>
 <li><a href="#_grape_インストール">2. Grape インストール</a></li>
+<li><a href="#_定義ファイル">3. 定義ファイル</a></li>
+<li><a href="#_参考資料">4. 参考資料</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<div class="paragraph lead">
+<p>APIを簡単に作ることができるライブラリの一つです。</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -483,9 +481,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_grape_インストール">2. Grape インストール</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://study.yambal.net/Gem.html#gemfile">Gemfile</a> に記述</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre>gem install grape</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://study.yambal.net/Gem.html#gemfile#gem">gem</a> を <a href="https://study.yambal.net/Gem.html#gemfile#Bundler">Bundler</a> でインストール</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bundle install</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_定義ファイル">3. 定義ファイル</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://study.yambal.net/RubyApplication.html#application-rb">application.rb</a> に以下を追記し、apiフォルダ内のソースを読み込む。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -493,11 +516,29 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_参考資料">4. 参考資料</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://qiita.com/kadotami/items/6cd455122acedf9510f2">Rails(Grape)でAPIを作成する備忘録1 @Qiita</a></p>
+</li>
+<li>
+<p><a href="https://qiita.com/takusemba/items/a86796aa3c207155c579">railsでGrapeを使ってAPI作成、プラス例外処理 @Qiita</a></p>
+</li>
+<li>
+<p><a href="https://dev.classmethod.jp/server-side/ruby-on-rails/ruby-on-rails_create_grape_web-api/">Grapeを使ってWeb APIを作成する @DevelopersIO</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2018-12-16 20:57:24 +0900
+Last updated 2018-12-17 00:47:46 +0900
 </div>
 </div>
 </body>

@@ -6,6 +6,7 @@
 == INDEX
 === Ruby
 * link:Gem.html[Gem, Bundle, Gememfile]
+* link:RubbyApplication.html[application.rb の役割]
 * link:Grape.html[Grapeとは何か]
 * link:Rack.html[Rackとは何か]
 
