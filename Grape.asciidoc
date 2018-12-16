@@ -1,7 +1,17 @@
-= Grape
+:lang: ja
+:doctype: book
+:toc-title: 目次
+:toc: left
+:sectnums:
+:docname: = Grapeとは何か
+:author: やまもとじゅん
+:revnumber: 0.1
+:revdate: 2018/12/16
+
+= Grapeとは何か
 
 - RubyのREST-likeなAPIフレームワーク
-- Railsや Sinatraなどの既存のWebアプリケーションフレームワークを補完する *Rack* 上で動作するように設計
+- Railsや Sinatraなどの既存のWebアプリケーションフレームワークを補完する *link:Rack.html[Rack]* 上で動作するように設計
 - RESTful APIを簡単に開発できるシンプルなDSLを提供
 - https://github.com/ruby-grape/grape[Grape (Git)]
 - http://www.ruby-grape.org/[Web Site]

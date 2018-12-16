@@ -5,6 +5,7 @@ module.exports = function(grunt) {
           page: {
               command: [
                 'asciidoctor -b html5 -o docs/index.html index.asciidoc',
+                'asciidoctor -b html5 -o docs/Grape.html Grape.asciidoc',
                 'asciidoctor -b html5 -o docs/Rack.html Rack.asciidoc',
                 'asciidoctor -b html5 -o docs/Asciidoc.html Asciidoc.asciidoc',
               ].join('&&')
