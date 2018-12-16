@@ -1,9 +1,16 @@
+:lang: ja
 == Asciidoc
+やまもとじゅん
+v0.1, 2018-12-16
+
+AsciiDocは軽量マークアップ言語のひとつである。
+AsciiDocは2002年、Stuart Rackhamによって構想された。
+
+== 特徴
+* ビルドする環境を整えるのが（比較的）楽
+* GitHub で利用できる（Pagesではレンダリングできないけど）
 
 === PDFに変換する
-==== 参考
-https://qiita.com/ponsuke0531/items/302638ad6fbed05d97fc[日語があるAsciiDocのファイルをPDFにする方法]
-
 ==== Asciidoctor
 ----
 gem install asciidoctor
@@ -12,5 +19,9 @@ gem install asciidoctor-pdf-cjk
 ----
 
 ----
-asciidoctor-pdf -r asciidoctor-pdf-cjk {AsciiDoc}.asciidoc
+asciidoctor-pdf -r asciidoctor-pdf-cjk ./Asciidoc.asciidoc -o docs/pdf/Asciidoc.pd
 ----
+
+==== 参考資料
+* https://qiita.com/ponsuke0531/items/302638ad6fbed05d97fc[日語があるAsciiDocのファイルをPDFにする方法]
+* https://qiita.com/gho4d76g/items/302e1ff91754b9b50f34#%E3%81%AA%E3%81%9Casciidoc[asciidoctor-pdfで社内ドキュメントを書こう]

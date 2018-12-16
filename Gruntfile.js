@@ -6,12 +6,14 @@ module.exports = function(grunt) {
               command: [
                 'asciidoctor -b html5 -o docs/index.html index.asciidoc',
                 'asciidoctor -b html5 -o docs/Rack.html Rack.asciidoc',
+                'asciidoctor -b html5 -o docs/Asciidoc.html Asciidoc.asciidoc',
               ].join('&&')
           },
             pdf: {
                 command: [
-                  'asciidoctor-pdf -o docs/pdf/index.pdf ./index.asciidoc',
-                  'asciidoctor-pdf -o docs/pdf/Asciidoc.pdf ./Asciidoc.asciidoc'
+                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./index.asciidoc -o docs/pdf/index.pdf',
+                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Rack.asciidoc -o docs/pdf/Rack.pdf',
+                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Asciidoc.asciidoc -o docs/pdf/Asciidoc.pdf'
                 ].join('&&')
             }
         }
@@ -19,4 +21,5 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-shell');
     grunt.registerTask('default', ['shell:page','shell:pdf']);
+    grunt.registerTask('pdf', ['shell:pdf']);
 };

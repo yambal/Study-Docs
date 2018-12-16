@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>やまじゅんの学習ノート</title>
+<title>Asciidoc</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -432,37 +432,63 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>やまじゅんの学習ノート</h1>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="_asciidoc">Asciidoc</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>これは学習のメモである</p>
+<p>やまもとじゅん
+v0.1, 2018-12-16</p>
+</div>
+<div class="paragraph">
+<p>AsciiDocは軽量マークアップ言語のひとつである。
+AsciiDocは2002年、Stuart Rackhamによって構想された。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_index">INDEX</h2>
+<h2 id="_特徴">特徴</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_ruby">Ruby</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="Rack.html">Rackとは何か</a></p>
+<p>ビルドする環境を整えるのが（比較的）楽</p>
+</li>
+<li>
+<p>GitHub で利用できる（Pagesではレンダリングできないけど）</p>
 </li>
 </ul>
 </div>
-</div>
 <div class="sect2">
-<h3 id="_asciidoc">Asciidoc</h3>
+<h3 id="_pdfに変換する">PDFに変換する</h3>
+<div class="sect3">
+<h4 id="_asciidoctor">Asciidoctor</h4>
+<div class="listingblock">
+<div class="content">
+<pre>gem install asciidoctor
+gem install --pre asciidoctor-pdf
+gem install asciidoctor-pdf-cjk</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>asciidoctor-pdf -r asciidoctor-pdf-cjk ./Asciidoc.asciidoc -o docs/pdf/Asciidoc.pd</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_参考資料">参考資料</h4>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="Asciidoc.html">Asciidoc</a></p>
+<p><a href="https://qiita.com/ponsuke0531/items/302638ad6fbed05d97fc">日語があるAsciiDocのファイルをPDFにする方法</a></p>
+</li>
+<li>
+<p><a href="https://qiita.com/gho4d76g/items/302e1ff91754b9b50f34#%E3%81%AA%E3%81%9Casciidoc">asciidoctor-pdfで社内ドキュメントを書こう</a></p>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -470,7 +496,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-12-16 18:57:08 +0900
+Last updated 2018-12-16 19:00:54 +0900
 </div>
 </div>
 </body>

@@ -1,1 +1,11 @@
-link:Rack.html[Rack]
+:lang: ja
+= やまじゅんの学習ノート
+
+これは学習のメモである
+
+== INDEX
+=== Ruby
+* link:Rack.html[Rackとは何か]
+
+=== Asciidoc
+* link:Asciidoc.html[Asciidoc]
