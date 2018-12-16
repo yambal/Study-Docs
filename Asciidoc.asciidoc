@@ -1,0 +1,16 @@
+== Asciidoc
+
+=== PDFに変換する
+==== 参考
+https://qiita.com/ponsuke0531/items/302638ad6fbed05d97fc[日語があるAsciiDocのファイルをPDFにする方法]
+
+==== Asciidoctor
+----
+gem install asciidoctor
+gem install --pre asciidoctor-pdf
+gem install asciidoctor-pdf-cjk
+----
+
+----
+asciidoctor-pdf -r asciidoctor-pdf-cjk {AsciiDoc}.asciidoc
+----
