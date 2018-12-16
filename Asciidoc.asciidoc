@@ -1,19 +1,79 @@
 :lang: ja
-== Asciidoc
-やまもとじゅん
-v0.1, 2018-12-16
+:doctype: book
+:toc-title: 目次
+:toc: left
+:sectnums:
+:docname: = Asciidoc
+:author: やまもとじゅん
+:revnumber: 0.1
+:revdate: 2018/12/16
 
-AsciiDocは軽量マークアップ言語のひとつである。
-AsciiDocは2002年、Stuart Rackhamによって構想された。
+= Asciidoc
+
+[.lead]
+AsciiDocは軽量マークアップ言語のひとつである。AsciiDocは2002年、Stuart Rackhamによって構想された。
 
 == 特徴
 * ビルドする環境を整えるのが（比較的）楽
 * GitHub で利用できる（Pagesではレンダリングできないけど）
 
-=== PDFに変換する
-==== Asciidoctor
+== 書き方
+
+=== Document Types
+article::
+短い文書、記事、一般的な文書に使用されます。
+book::
+脚注、目次、表のリスト、図表のリスト、例と索引のリストを自動的に生成することができる
+manpage::
+roff形式のUNIXマニュアルページの生成に使用
+----
+:doctype: article
+:doctype: book
+:doctype: manpage
+----
+
+=== セクションに番号を振る
+----
+:sectnums:
+----
+
+=== 見出しから目次を自動で作る
+----
+:toc:
+:toc: left (左側に表示)
+:toc-title: 目次 (目次のタイトルを指定)
+----
+NOTE: ToCとはTable of Contentsの略。
+
+[[anchor-name]]
+=== アンカー
+見出しを作成すると自動的に付加される。
+----
+=== アンカー (-> id="_アンカー")
+----
+
+==== 任意のアンカーを振る
+[[任意のアンカー]]この文章にはアンカーを振っています
+----
+[[任意のアンカー]]この文章にはアンカーを振っています
+
+[[anchor-name]]
+=== アンカー (-> id="anchor-name")
+----
+
+== HTMLに変換する
+asciidoctor:: asciidocファイルをHTMLファイルに変換するruby製ツール
 ----
 gem install asciidoctor
+----
+
+== PDFに変換する
+asciidoctor-pdf ::
+asciidocファイルをPDFファイルに変換するruby製ツール
+asciidoctor-pdf-cjk::
+日本語を使った文章向けの設定
+
+----
 gem install --pre asciidoctor-pdf
 gem install asciidoctor-pdf-cjk
 ----
@@ -22,6 +82,6 @@ gem install asciidoctor-pdf-cjk
 asciidoctor-pdf -r asciidoctor-pdf-cjk ./Asciidoc.asciidoc -o docs/pdf/Asciidoc.pd
 ----
 
-==== 参考資料
+== 参考資料
 * https://qiita.com/ponsuke0531/items/302638ad6fbed05d97fc[日語があるAsciiDocのファイルをPDFにする方法]
 * https://qiita.com/gho4d76g/items/302e1ff91754b9b50f34#%E3%81%AA%E3%81%9Casciidoc[asciidoctor-pdfで社内ドキュメントを書こう]

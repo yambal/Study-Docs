@@ -22,4 +22,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-shell');
     grunt.registerTask('default', ['shell:page','shell:pdf']);
     grunt.registerTask('pdf', ['shell:pdf']);
+    grunt.registerTask('html', ['shell:page']);
 };

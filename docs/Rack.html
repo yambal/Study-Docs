@@ -431,25 +431,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="book toc2 toc-left">
 <div id="header">
 <h1>Rack</h1>
 <div class="details">
 <span id="author" class="author">やまもとじゅん</span><br>
-<span id="revnumber">version 1.0,</span>
-<span id="revdate">2018-12-16</span>
+<span id="revnumber">version 0.1,</span>
+<span id="revdate">2018/12/16</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_rackの目的">1. Rackの目的</a></li>
+<li><a href="#_rackアプリケーションとして最低限必要なこと">2. Rackアプリケーションとして最低限必要なこと</a></li>
+<li><a href="#_初めての_rack">3. 初めての Rack</a>
+<ul class="sectlevel2">
+<li><a href="#_config_ru_rackup">3.1. config.ru &amp; rackup</a></li>
+</ul>
+</li>
+<li><a href="#_rackrequestrackresponse">4. Rack::Request/Rack::Response</a></li>
+<li><a href="#_rackurlmap">5. Rack::URLMap</a></li>
+<li><a href="#_参考にした資料">6. 参考にした資料</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
+<div class="paragraph lead">
 <p>Rackはサーバとアプリケーション／フレームワーク間のインターフェース（HTTPリクエストとレスポンス）を可能なかぎり簡単な方法でラッピングし、応用の利くインターフェイスを提供する。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rackの目的">Rackの目的</h2>
+<h2 id="_rackの目的">1. Rackの目的</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>インターフェースが統一されていれば，サーバやフレームワークの組み合わせが自由になる</p>
@@ -472,7 +487,7 @@ Ruby on Railsをインストールしている場合はすでに必須モジュ�
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rackアプリケーションとして最低限必要なこと">Rackアプリケーションとして最低限必要なこと</h2>
+<h2 id="_rackアプリケーションとして最低限必要なこと">2. Rackアプリケーションとして最低限必要なこと</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -503,7 +518,7 @@ Ruby on Railsをインストールしている場合はすでに必須モジュ�
 </div>
 </div>
 <div class="sect1">
-<h2 id="_初めての_rack">初めての Rack</h2>
+<h2 id="_初めての_rack">3. 初めての Rack</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>simple_app.rb</p>
@@ -544,7 +559,7 @@ end</pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_config_ru_rackup">config.ru &amp; rackup</h3>
+<h3 id="_config_ru_rackup">3.1. config.ru &amp; rackup</h3>
 <div class="paragraph">
 <p>config.ruという <strong>rackupファイル</strong> を用意し，rackupといういうコマンドを使ってアプリケーションを起動</p>
 </div>
@@ -578,7 +593,7 @@ run SimpleApp.new</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rackrequestrackresponse">Rack::Request/Rack::Response</h2>
+<h2 id="_rackrequestrackresponse">4. Rack::Request/Rack::Response</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><strong>Rack::Request</strong> と <strong>Rack::Response</strong> というラッパーが用意されている。HashやArrayよりは少し扱いやすくなる。</p>
@@ -612,7 +627,7 @@ end</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rackurlmap">Rack::URLMap</h2>
+<h2 id="_rackurlmap">5. Rack::URLMap</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Rack標準添付の「アプリケーション」。Rack::Builderにも上手く組み込まれている。<br>
@@ -638,7 +653,7 @@ end</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_参考にした資料">参考にした資料</h2>
+<h2 id="_参考にした資料">6. 参考にした資料</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -655,8 +670,8 @@ end</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.0<br>
-Last updated 2018-12-16 18:55:20 +0900
+Version 0.1<br>
+Last updated 2018-12-16 20:33:14 +0900
 </div>
 </div>
 </body>

@@ -1,8 +1,16 @@
 :lang: ja
-= Rack
-やまもとじゅん
-v1.0, 2018-12-16
+:doctype: book
+:toc-title: 目次
+:toc: left
+:sectnums:
+:docname: = Asciidoc
+:author: やまもとじゅん
+:revnumber: 0.1
+:revdate: 2018/12/16
 
+= Rack
+
+[.lead]
 Rackはサーバとアプリケーション／フレームワーク間のインターフェース（HTTPリクエストとレスポンス）を可能なかぎり簡単な方法でラッピングし、応用の利くインターフェイスを提供する。
 
 == Rackの目的
