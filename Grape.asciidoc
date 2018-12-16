@@ -11,16 +11,16 @@
 = Grapeとは何か
 
 - RubyのREST-likeなAPIフレームワーク
-- Railsや Sinatraなどの既存のWebアプリケーションフレームワークを補完する *link:Rack.html[Rack]* 上で動作するように設計
+- *link:Rack.html[Rack]* 上で動作するように設計
 - RESTful APIを簡単に開発できるシンプルなDSLを提供
+
+== オフィシャルな情報源
 - https://github.com/ruby-grape/grape[Grape (Git)]
 - http://www.ruby-grape.org/[Web Site]
-
-NOTE: *Sinatra*:Rubyで作成されたオープンソースのWebアプリケーションフレームワーク
 
 == Grape インストール
 ----
 gem install grape
 ----
 
-123
+rails5でapiモードができているのでそちらを参照されたほうが良いと思います

@@ -1,0 +1,84 @@
+:lang: ja
+:doctype: book
+:toc-title: 目次
+:toc: left
+:sectnums:
+:docname: = Gem, Bundle, Gememfile
+:author: やまもとじゅん
+:revnumber: 0.1
+:revdate: 2018/12/16
+
+= Gem, Bundle, Gememfile
+
+[.lead]
+RubyGemsは、Ruby言語用のパッケージ管理システムであり、Rubyのプログラムと（"gem" と呼ばれる）ライブラリの配布用標準フォーマットを提供している。gemを容易に管理でき、gemを配布するサーバの機能も持つ。Rubyバージョン1.9以降では標準ライブラリの一部となっている。
+
+== 概要
+RubyGems::
+Rubyにおけるパッケージ管理システム。Rubyバージョン1.9以降では標準ライブラリ
+gem（パッケージ）::
+*RubyGems* でインストール可能なライブラリやコマンドをまとめたもの。
+Bundler::
+プロジェクト内で *gem* 同士の互換性を保ちながらパッケージの種類やバージョンを管理する。
+Gememfile::
+gemのカタログファイル。Bundler用の設定ファイル。Railsで使用するGemの依存関係を管理するファイル。
+
+[Bundler]
+== Bundler
+プロジェクト内で *gem* 同士の互換性を保ちながらパッケージの種類やバージョンを管理する。
+
+[Install-Bundler]
+=== Bundlerのインストール
+Bundler も gem パッケージです
+----
+gem install Bundler
+bundle -v （バージョン確認）
+----
+NOTE: Bundler本体以外の *gem* は基本的にBundler経由でインストールを行うのが望ましい
+
+=== Gemfile生成
+Gemfile をもとにgemを管理していく。*Gemfile* が無い場合は生成する。必要なgemは *Gemfile* に記述する。
+----
+bundle init
+----
+
+=== gemのインストール
+生成・記述した *Gemfile* をもとにgemをインストールする
+----
+bundle install
+----
+
+=== gemのバージョンアップ
+----
+bundle update（gemのバージョンアップ）
+----
+
+[gemfile]
+== Gememfile
+*gem* のカタログファイル。*Bundler* 用の設定ファイル。 +
+Bundlerは *Gemfile* の記述にしたがって、依存関係を示した *Gemfile.lock* を生成する。
+
+=== 記述方法
+----
+gem ライブラリ名 [, バージョン, オプション]
+----
+==== 記述例
+----
+gem "nokogiri"             # 最新版
+gem "rails", "3.0.0.beta3" # 固定
+gem "rack",  ">=1.0"       # 1.0以降
+gem "thin",  "~>1.1"       # 1.1以降2.0以前
+----
+
+=== Gemfile.lock
+Gemfile から、依存 gem も含めたカタログを生成したもの
+
+== RubyGems と npm
+それぞれの役割をnpmで例えると分かりやすいかもしれない
+[format="csv", options="header"]
+|===
+-, Bundler, npm
+カタログ, Gemfile, package.json
+依存について, Gemfile.lock, package-lock.json
+ライブラリの実体, (グローバル), node_modules
+|===
