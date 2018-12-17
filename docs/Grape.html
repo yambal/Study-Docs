@@ -437,8 +437,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_オフィシャルな情報源">1. オフィシャルな情報源</a></li>
 <li><a href="#_grape_インストール">2. Grape インストール</a></li>
-<li><a href="#_定義ファイル">3. 定義ファイル</a></li>
-<li><a href="#_参考資料">4. 参考資料</a></li>
+<li><a href="#_基本">3. 基本</a></li>
+<li><a href="#_定義ファイル">4. 定義ファイル</a></li>
+<li><a href="#_参考資料">5. 参考資料</a></li>
+<li><a href="#_grapeの基礎">Grapeの基礎</a>
+<ul class="sectlevel1">
+<li><a href="#_最初の一歩">6. 最初の一歩</a>
+<ul class="sectlevel2">
+<li><a href="#_api_の実装">6.1. API の実装</a></li>
+</ul>
+</li>
+<li><a href="#_rails側の設定">7. Rails側の設定</a>
+<ul class="sectlevel2">
+<li><a href="#_appapi_配下のファイルの読み込み">7.1. /app/api 配下のファイルの読み込み</a></li>
+<li><a href="#_apiのルーティングを追加">7.2. APIのルーティングを追加</a></li>
+</ul>
+</li>
+<li><a href="#_動作確認">8. 動作確認</a>
+<ul class="sectlevel2">
+<li><a href="#_起動">8.1. 起動</a></li>
+<li><a href="#_curl_等で確認">8.2. curl 等で確認</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -482,7 +504,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_grape_インストール">2. Grape インストール</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://study.yambal.net/Gem.html#gemfile">Gemfile</a> に記述</p>
+<p><a href="https://study.yambal.net/Gem.html#gemfile#Bundler">Bundler</a> を利用しているなら <a href="https://study.yambal.net/Gem.html#gemfile">Gemfile</a> に記述</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -490,7 +512,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="paragraph">
-<p><a href="https://study.yambal.net/Gem.html#gemfile#gem">gem</a> を <a href="https://study.yambal.net/Gem.html#gemfile#Bundler">Bundler</a> でインストール</p>
+<p><a href="https://study.yambal.net/Gem.html#gemfile#gem">gem</a> を Bundler でインストール</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -500,7 +522,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_定義ファイル">3. 定義ファイル</h2>
+<h2 id="_基本">3. 基本</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Grape は Grape::API のサブクラス化で生成する <a href="https://study.yambal.net/Rack.html">Rackアプリケーション</a> です</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_定義ファイル">4. 定義ファイル</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="https://study.yambal.net/RubyApplication.html#application-rb">application.rb</a> に以下を追記し、apiフォルダ内のソースを読み込む。</p>
@@ -517,7 +547,7 @@ config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_参考資料">4. 参考資料</h2>
+<h2 id="_参考資料">5. 参考資料</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -534,11 +564,111 @@ config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]</pre>
 </div>
 </div>
 </div>
+<h1 id="_grapeの基礎" class="sect0">Grapeの基礎</h1>
+<div class="openblock partintro lead">
+<div class="content">
+実装を学ぶ
+</div>
+</div>
+<div class="sect1">
+<h2 id="_最初の一歩">6. 最初の一歩</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_api_の実装">6.1. API の実装</h3>
+<div class="paragraph">
+<p>Grape::API を継承した Module を作成します<br>
+<a href="https://github.com/yambal/Ruby-Grape-Basic/blob/master/app/api/test/api.rb">/app/api/test/api.rb</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>module Test
+  class API &lt; Grape::API
+
+    format :json
+
+    resource :api do
+
+      desc "Return Hello"
+      get :hello do
+        {message: "Hello Grape"}
+      end
+
+      desc "Hello Name"
+      params do
+        requires :name, type: String, desc: "twice str"
+      end
+      get :twice do
+        {message: 'Hello ' + params[:name]}
+      end
+
+    end
+  end
+end</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rails側の設定">7. Rails側の設定</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_appapi_配下のファイルの読み込み">7.1. /app/api 配下のファイルの読み込み</h3>
+<div class="paragraph">
+<p>Railsでapiファイルを自動で読み込む<br>
+<a href="https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/application.rb">/config/application.rb</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_apiのルーティングを追加">7.2. APIのルーティングを追加</h3>
+<div class="paragraph">
+<p><a href="https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/routes.rb">/config/routes.rb</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mount Test::API =&gt; '/test/'</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_動作確認">8. 動作確認</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_起動">8.1. 起動</h3>
+<div class="listingblock">
+<div class="content">
+<pre>ruby server</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_curl_等で確認">8.2. curl 等で確認</h3>
+<div class="listingblock">
+<div class="content">
+<pre>curl http://localhost:9292/test/api/hello</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl http://localhost:9292/test/api/name?name=June</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2018-12-17 00:47:46 +0900
+Last updated 2018-12-17 21:16:26 +0900
 </div>
 </div>
 </body>

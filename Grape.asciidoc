@@ -20,14 +20,17 @@ APIを簡単に作ることができるライブラリの一つです。
 - http://www.ruby-grape.org/[Web Site]
 
 == Grape インストール
-https://study.yambal.net/Gem.html#gemfile[Gemfile] に記述
+https://study.yambal.net/Gem.html#gemfile#Bundler[Bundler] を利用しているなら https://study.yambal.net/Gem.html#gemfile[Gemfile] に記述
 ----
 gem install grape
 ----
-https://study.yambal.net/Gem.html#gemfile#gem[gem] を https://study.yambal.net/Gem.html#gemfile#Bundler[Bundler] でインストール
+https://study.yambal.net/Gem.html#gemfile#gem[gem] を Bundler でインストール
 ----
 bundle install
 ----
+
+== 基本
+Grape は Grape::API のサブクラス化で生成する https://study.yambal.net/Rack.html[Rackアプリケーション] です
 
 == 定義ファイル
 https://study.yambal.net/RubyApplication.html#application-rb[application.rb] に以下を追記し、apiフォルダ内のソースを読み込む。
@@ -43,3 +46,65 @@ rails5でapiモードができているのでそちらを参照されたほう�
 * https://qiita.com/kadotami/items/6cd455122acedf9510f2[Rails(Grape)でAPIを作成する備忘録1 @Qiita]
 * https://qiita.com/takusemba/items/a86796aa3c207155c579[railsでGrapeを使ってAPI作成、プラス例外処理 @Qiita]
 * https://dev.classmethod.jp/server-side/ruby-on-rails/ruby-on-rails_create_grape_web-api/[Grapeを使ってWeb APIを作成する @DevelopersIO]
+
+= Grapeの基礎
+[.lead]
+実装を学ぶ
+
+== 最初の一歩
+=== API の実装
+Grape::API を継承した Module を作成します +
+https://github.com/yambal/Ruby-Grape-Basic/blob/master/app/api/test/api.rb[/app/api/test/api.rb]
+----
+module Test
+  class API < Grape::API
+
+    format :json
+
+    resource :api do
+
+      desc "Return Hello"
+      get :hello do
+        {message: "Hello Grape"}
+      end
+
+      desc "Hello Name"
+      params do
+        requires :name, type: String, desc: "twice str"
+      end
+      get :twice do
+        {message: 'Hello ' + params[:name]}
+      end
+
+    end
+  end
+end
+----
+
+== Rails側の設定
+=== /app/api 配下のファイルの読み込み
+Railsでapiファイルを自動で読み込む +
+https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/application.rb[/config/application.rb]
+----
+config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+----
+
+=== APIのルーティングを追加
+https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/routes.rb[/config/routes.rb]
+----
+mount Test::API => '/test/'
+----
+
+== 動作確認
+=== 起動
+----
+ruby server
+----
+=== curl 等で確認
+----
+curl http://localhost:9292/test/api/hello
+----
+----
+curl http://localhost:9292/test/api/name?name=June
+----
