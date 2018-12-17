@@ -16,6 +16,7 @@ module.exports = function(grunt) {
                 command: [
                   'asciidoctor-pdf -r asciidoctor-pdf-cjk ./index.asciidoc -o docs/pdf/index.pdf',
                   'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Gem.asciidoc -o docs/pdf/Gem.pdf',
+                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Grape.asciidoc -o docs/pdf/Grape.pdf',
                   'asciidoctor-pdf -r asciidoctor-pdf-cjk ./RubyApplication.asciidoc -o docs/pdf/RubyApplication.pdf',
                   'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Rack.asciidoc -o docs/pdf/Rack.pdf',
                   'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Asciidoc.asciidoc -o docs/pdf/Asciidoc.pdf'

@@ -1,5 +1,6 @@
 :lang: ja
 :doctype: book
+:chapter-label:
 :toc-title: 目次
 :toc: left
 :sectnums:
@@ -8,51 +9,49 @@
 :revnumber: 0.1
 :revdate: 2018/12/16
 
+= Grape入門
+
 [.lead]
-APIを簡単に作ることができるライブラリの一つです。
+GrapeはRailsでRESTful APIを書く時に便利なマイクロフレームワーク。APIを簡単に作ることができるライブラリの一つです。
+
+== 概要
+Grape は Grape::API のサブクラス化で生成する https://study.yambal.net/Rack.html[Rackアプリケーション] です
 
 - RubyのREST-likeなAPIフレームワーク
 - *link:Rack.html[Rack]* 上で動作するように設計
 - RESTful APIを簡単に開発できるシンプルなDSLを提供
 
-== オフィシャルな情報源
+=== オフィシャルな情報源
 - https://github.com/ruby-grape/grape[Grape (Git)]
 - http://www.ruby-grape.org/[Web Site]
 
+CAUTION: rails5にはapiモードがある
+
 == Grape インストール
+=== Bundler
 https://study.yambal.net/Gem.html#gemfile#Bundler[Bundler] を利用しているなら https://study.yambal.net/Gem.html#gemfile[Gemfile] に記述
 ----
-gem install grape
+gem 'grape'
 ----
 https://study.yambal.net/Gem.html#gemfile#gem[gem] を Bundler でインストール
 ----
 bundle install
 ----
 
-== 基本
-Grape は Grape::API のサブクラス化で生成する https://study.yambal.net/Rack.html[Rackアプリケーション] です
-
-== 定義ファイル
-https://study.yambal.net/RubyApplication.html#application-rb[application.rb] に以下を追記し、apiフォルダ内のソースを読み込む。
 ----
-config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
-config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+gem install grape
 ----
 
+== Grape API の実装
 
-rails5でapiモードができているのでそちらを参照されたほうが良いと思います
-
-== 参考資料
-* https://qiita.com/kadotami/items/6cd455122acedf9510f2[Rails(Grape)でAPIを作成する備忘録1 @Qiita]
-* https://qiita.com/takusemba/items/a86796aa3c207155c579[railsでGrapeを使ってAPI作成、プラス例外処理 @Qiita]
-* https://dev.classmethod.jp/server-side/ruby-on-rails/ruby-on-rails_create_grape_web-api/[Grapeを使ってWeb APIを作成する @DevelopersIO]
-
-= Grapeの基礎
 [.lead]
 実装を学ぶ
 
-== 最初の一歩
-=== API の実装
+[[first-grape]]
+=== 最初の一歩
+とにかく動くものを作ってみる
+
+==== API の実装
 Grape::API を継承した Module を作成します +
 https://github.com/yambal/Ruby-Grape-Basic/blob/master/app/api/test/api.rb[/app/api/test/api.rb]
 ----
@@ -81,8 +80,8 @@ module Test
 end
 ----
 
-== Rails側の設定
-=== /app/api 配下のファイルの読み込み
+==== Rails側の設定
+===== /app/api 配下のファイルの読み込み
 Railsでapiファイルを自動で読み込む +
 https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/application.rb[/config/application.rb]
 ----
@@ -90,21 +89,132 @@ config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
 config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 ----
 
-=== APIのルーティングを追加
-https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/routes.rb[/config/routes.rb]
+===== APIのルーティングを追加
+https://github.com/yambal/Ruby-Grape-Basic/blob/bacf0eaad42301b77927495f835275769310c7db/config/routes.rb[/config/routes.rb]
 ----
 mount Test::API => '/test/'
 ----
 
-== 動作確認
-=== 起動
+==== 動作確認
+===== 起動
 ----
 ruby server
 ----
-=== curl 等で確認
+===== curl 等で確認
 ----
 curl http://localhost:9292/test/api/hello
 ----
 ----
 curl http://localhost:9292/test/api/name?name=June
 ----
+<<<
+=== オフィシャルなサンプル
+https://github.com/ruby-grape/grape[オフィシャルドキュメント]のサンプルを実装する。
+
+https://github.com/ruby-grape/grape#basic-usage[*Basic Usage* ruby-grape/grape@GitHub]
+
+==== Rackアプリケーション
+Grape::API を継承した Grape API。Twitter を模したサンプルのよう +
+https://github.com/yambal/Ruby-Grape-Basic/blob/master/app/api/twitter/api.rb[/app/api/twitter/api.rb]
+----
+module Twitter
+  class API < Grape::API
+    version 'v1', using: :header, vendor: 'twitter'
+    format :json
+    prefix :api
+
+    helpers do
+      def current_user
+        @current_user ||= User.authorize!(env)
+      end
+
+      def authenticate!
+        error!('401 Unauthorized', 401) unless current_user
+      end
+    end
+
+    resource :statuses do
+      desc 'Return a public timeline.'
+      get :public_timeline do
+        # とりあえずデータないので...
+        #Status.limit(20)
+        [{message:"hoge"}]
+      end
+
+      desc 'Return a personal timeline.'
+      get :home_timeline do
+        authenticate!
+        current_user.statuses.limit(20)
+      end
+
+      desc 'Return a status.'
+      params do
+        requires :id, type: Integer, desc: 'Status id.'
+      end
+      route_param :id do
+        get do
+          Status.find(params[:id])
+        end
+      end
+
+      desc 'Create a status.'
+      params do
+        requires :status, type: String, desc: 'Your status.'
+      end
+      post do
+        authenticate!
+        Status.create!({
+          user: current_user,
+          text: params[:status]
+        })
+      end
+
+      desc 'Update a status.'
+      params do
+        requires :id, type: String, desc: 'Status ID.'
+        requires :status, type: String, desc: 'Your status.'
+      end
+      put ':id' do
+        authenticate!
+        current_user.statuses.find(params[:id]).update({
+          user: current_user,
+          text: params[:status]
+        })
+      end
+
+      desc 'Delete a status.'
+      params do
+        requires :id, type: String, desc: 'Status ID.'
+      end
+      delete ':id' do
+        authenticate!
+        current_user.statuses.find(params[:id]).destroy
+      end
+    end
+  end
+end
+----
+
+==== Rails側の設定
+===== /app/api 配下のファイルの読み込み
+Railsでapiファイルを自動で読み込む +
+https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/application.rb[/config/application.rb] +
+(link:#first-grap[最初の一歩] と同じ設定のままでOK)
+
+===== APIのルーティングを追加
+https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/routes.rb[/config/routes.rb]
+----
+mount Twitter::API => '/twitter/'
+----
+
+==== 動作確認
+----
+curl http://localhost:3000/twitter/api/statuses/public_timeline
+----
+
+<<<<
+== 参考資料
+* https://qiita.com/techno-tanoC/items/1aabd698e8fd912c699f[*Rails&grapeで簡単WebAPI* @Qiita]
+* https://qiita.com/kadotami/items/6cd455122acedf9510f2[Rails(Grape)でAPIを作成する備忘録1 @Qiita]
+* https://qiita.com/takusemba/items/a86796aa3c207155c579[railsでGrapeを使ってAPI作成、プラス例外処理 @Qiita]
+* https://dev.classmethod.jp/server-side/ruby-on-rails/ruby-on-rails_create_grape_web-api/[Grapeを使ってWeb APIを作成する @DevelopersIO]
