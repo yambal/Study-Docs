@@ -1,7 +1,6 @@
 {
   "name": "study",
   "version": "1.0.0",
-  "description": "",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,5 +18,9 @@
   "dependencies": {
     "grunt": "^1.0.3",
     "grunt-shell": "^2.1.0"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "description": ""
 }

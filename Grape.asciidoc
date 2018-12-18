@@ -108,12 +108,12 @@ curl http://localhost:9292/test/api/hello
 curl http://localhost:9292/test/api/name?name=June
 ----
 <<<
-=== オフィシャルなサンプル
+==== オフィシャルなサンプル
 https://github.com/ruby-grape/grape[オフィシャルドキュメント]のサンプルを実装する。
 
 https://github.com/ruby-grape/grape#basic-usage[*Basic Usage* ruby-grape/grape@GitHub]
 
-==== Rackアプリケーション
+===== Rackアプリケーション
 Grape::API を継承した Grape API。Twitter を模したサンプルのよう +
 https://github.com/yambal/Ruby-Grape-Basic/blob/master/app/api/twitter/api.rb[/app/api/twitter/api.rb]
 ----
@@ -195,22 +195,41 @@ module Twitter
 end
 ----
 
-==== Rails側の設定
-===== /app/api 配下のファイルの読み込み
+===== Rails側の設定
+====== /app/api 配下のファイルの読み込み
 Railsでapiファイルを自動で読み込む +
 https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/application.rb[/config/application.rb] +
 (link:#first-grap[最初の一歩] と同じ設定のままでOK)
 
-===== APIのルーティングを追加
+====== APIのルーティングを追加
 https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/routes.rb[/config/routes.rb]
 ----
 mount Twitter::API => '/twitter/'
 ----
 
-==== 動作確認
+===== 動作確認
 ----
 curl http://localhost:3000/twitter/api/statuses/public_timeline
 ----
+
+[[grape-entity]]
+=== Grap::Entity
+この gem は、Grape などのAPIフレームワークに エンティティサポート を追加します。Grape's Entityは、オブジェクトモデルの最上位に位置するAPIフォーカスファサードです。
+
+==== インストール
+Gemfile
+----
+gem 'grape-entity'
+----
+----
+bundle install
+----
+
+==== エンティティの定義
+エンティティは Grape::Entity から継承し、単純なDSLを定義します。
+
+NOTE: Entity = 実態 +
+類義語として「インスタンス」、「オブジェクト」など。
 
 <<<<
 == 参考資料

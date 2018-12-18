@@ -162,6 +162,11 @@ gem install asciidoctor-pdf-cjk
 asciidoctor-pdf -r asciidoctor-pdf-cjk ./Asciidoc.asciidoc -o docs/pdf/Asciidoc.pd
 ----
 
+== Atom での AsciiDoc
+=== パッケージ
+* asciidoc-preview
+* language-asciidoc
+
 == 参考資料
 * https://qiita.com/ponsuke0531/items/302638ad6fbed05d97fc[日語があるAsciiDocのファイルをPDFにする方法]
 * https://qiita.com/gho4d76g/items/302e1ff91754b9b50f34#%E3%81%AA%E3%81%9Casciidoc[asciidoctor-pdfで社内ドキュメントを書こう]
