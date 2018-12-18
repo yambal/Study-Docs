@@ -5,10 +5,11 @@
 
 == INDEX
 === Ruby
-* link:Gem.html[Gem, Bundle, Gememfile]
-* link:RubbyApplication.html[application.rb の役割]
-* link:Grape.html[Grapeとは何か]
-* link:Rack.html[Rackとは何か]
+* http://study.yambal.net/RubyForDummies.html[サルでもわかるRuby（Windows）]
+* http://study.yambal.net/Gem.html[Gem, Bundle, Gememfile]
+* http://study.yambal.net/RubbyApplication.html[application.rb の役割]
+* http://study.yambal.net/Grape.html[Grapeとは何か]
+* http://study.yambal.net/Rack.html[Rackとは何か]
 
 === Asciidoc
-* link:Asciidoc.html[Asciidoc]
+* http://study.yambal.net/Asciidoc.html[Asciidoc]

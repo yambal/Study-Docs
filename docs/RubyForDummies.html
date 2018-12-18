@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
 <meta name="author" content="やまもとじゅん">
-<title>Grape入門</title>
+<title>サルでもわかるRuby（Windows）</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -433,7 +433,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Grape入門</h1>
+<h1>サルでもわかるRuby（Windows）</h1>
 <div class="details">
 <span id="author" class="author">やまもとじゅん</span><br>
 <span id="revnumber">version 0.1,</span>
@@ -442,23 +442,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">目次</div>
 <ul class="sectlevel1">
-<li><a href="#_概要">1. 概要</a>
+<li><a href="#_windows_に_ruby_をインストールする">1. Windows に Ruby をインストールする</a>
 <ul class="sectlevel2">
-<li><a href="#_オフィシャルな情報源">1.1. オフィシャルな情報源</a></li>
+<li><a href="#_そのまえにすでにrubyが入っていたりしないか確認">1.1. そのまえに、すでにRubyが入っていたりしないか確認</a></li>
+<li><a href="#_ruby_installer">1.2. Ruby Installer</a></li>
+<li><a href="#_どのバージョンをダウンロードするのですか">1.3. どのバージョンをダウンロードするのですか？</a></li>
+<li><a href="#_rails_で_sglite3_系エラー">1.4. Rails で sglite3 系エラー</a></li>
 </ul>
 </li>
-<li><a href="#_grape_インストール">2. Grape インストール</a>
-<ul class="sectlevel2">
-<li><a href="#_bundler">2.1. Bundler</a></li>
-</ul>
-</li>
-<li><a href="#_grape_api_の実装">3. Grape API の実装</a>
-<ul class="sectlevel2">
-<li><a href="#first-grape">3.1. 最初の一歩</a></li>
-<li><a href="#grape-entity">3.2. Grap::Entity</a></li>
-</ul>
-</li>
-<li><a href="#_参考資料">4. 参考資料</a></li>
 </ul>
 </div>
 </div>
@@ -466,334 +457,50 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph lead">
-<p>GrapeはRailsでRESTful APIを書く時に便利なマイクロフレームワーク。APIを簡単に作ることができるライブラリの一つです。</p>
+<p>まぁ、やってみよう</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_概要">1. 概要</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Grape は Grape::API のサブクラス化で生成する <a href="https://study.yambal.net/Rack.html">Rackアプリケーション</a> です</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>RubyのREST-likeなAPIフレームワーク</p>
-</li>
-<li>
-<p><strong><a href="Rack.html">Rack</a></strong> 上で動作するように設計</p>
-</li>
-<li>
-<p>RESTful APIを簡単に開発できるシンプルなDSLを提供</p>
-</li>
-</ul>
-</div>
-<div class="sect2">
-<h3 id="_オフィシャルな情報源">1.1. オフィシャルな情報源</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/ruby-grape/grape">Grape (Git)</a></p>
-</li>
-<li>
-<p><a href="http://www.ruby-grape.org/">Web Site</a></p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock caution">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Caution</div>
-</td>
-<td class="content">
-rails5にはapiモードがある
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_grape_インストール">2. Grape インストール</h2>
+<h2 id="_windows_に_ruby_をインストールする">1. Windows に Ruby をインストールする</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_bundler">2.1. Bundler</h3>
-<div class="paragraph">
-<p><a href="https://study.yambal.net/Gem.html#gemfile#Bundler">Bundler</a> を利用しているなら <a href="https://study.yambal.net/Gem.html#gemfile">Gemfile</a> に記述</p>
-</div>
+<h3 id="_そのまえにすでにrubyが入っていたりしないか確認">1.1. そのまえに、すでにRubyが入っていたりしないか確認</h3>
 <div class="listingblock">
 <div class="content">
-<pre>gem 'grape'</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><a href="https://study.yambal.net/Gem.html#gemfile#gem">gem</a> を Bundler でインストール</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>bundle install</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>gem install grape</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_grape_api_の実装">3. Grape API の実装</h2>
-<div class="sectionbody">
-<div class="paragraph lead">
-<p>実装を学ぶ</p>
-</div>
-<div class="sect2">
-<h3 id="first-grape">3.1. 最初の一歩</h3>
-<div class="paragraph">
-<p>とにかく動くものを作ってみる</p>
-</div>
-<div class="sect3">
-<h4 id="_api_の実装">3.1.1. API の実装</h4>
-<div class="paragraph">
-<p>Grape::API を継承した Module を作成します<br>
-<a href="https://github.com/yambal/Ruby-Grape-Basic/blob/master/app/api/test/api.rb">/app/api/test/api.rb</a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>module Test
-  class API &lt; Grape::API
-
-    format :json
-
-    resource :api do
-
-      desc "Return Hello"
-      get :hello do
-        {message: "Hello Grape"}
-      end
-
-      desc "Hello Name"
-      params do
-        requires :name, type: String, desc: "twice str"
-      end
-      get :twice do
-        {message: 'Hello ' + params[:name]}
-      end
-
-    end
-  end
-end</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_rails側の設定">3.1.2. Rails側の設定</h4>
-<div class="sect4">
-<h5 id="_appapi_配下のファイルの読み込み">/app/api 配下のファイルの読み込み</h5>
-<div class="paragraph">
-<p>Railsでapiファイルを自動で読み込む<br>
-<a href="https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/application.rb">/config/application.rb</a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
-config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_apiのルーティングを追加">APIのルーティングを追加</h5>
-<div class="paragraph">
-<p><a href="https://github.com/yambal/Ruby-Grape-Basic/blob/bacf0eaad42301b77927495f835275769310c7db/config/routes.rb">/config/routes.rb</a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>mount Test::API =&gt; '/test/'</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_動作確認">3.1.3. 動作確認</h4>
-<div class="sect4">
-<h5 id="_起動">起動</h5>
-<div class="listingblock">
-<div class="content">
-<pre>ruby server</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_curl_等で確認">curl 等で確認</h5>
-<div class="listingblock">
-<div class="content">
-<pre>curl http://localhost:9292/test/api/hello</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl http://localhost:9292/test/api/name?name=June</pre>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_オフィシャルなサンプル">3.1.4. オフィシャルなサンプル</h4>
-<div class="paragraph">
-<p><a href="https://github.com/ruby-grape/grape">オフィシャルドキュメント</a>のサンプルを実装する。</p>
-</div>
-<div class="paragraph">
-<p><a href="https://github.com/ruby-grape/grape#basic-usage"><strong>Basic Usage</strong> ruby-grape/grape@GitHub</a></p>
-</div>
-<div class="sect4">
-<h5 id="_rackアプリケーション">Rackアプリケーション</h5>
-<div class="paragraph">
-<p>Grape::API を継承した Grape API。Twitter を模したサンプルのよう<br>
-<a href="https://github.com/yambal/Ruby-Grape-Basic/blob/master/app/api/twitter/api.rb">/app/api/twitter/api.rb</a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>module Twitter
-  class API &lt; Grape::API
-    version 'v1', using: :header, vendor: 'twitter'
-    format :json
-    prefix :api
-
-    helpers do
-      def current_user
-        @current_user ||= User.authorize!(env)
-      end
-
-      def authenticate!
-        error!('401 Unauthorized', 401) unless current_user
-      end
-    end
-
-    resource :statuses do
-      desc 'Return a public timeline.'
-      get :public_timeline do
-        # とりあえずデータないので...
-        #Status.limit(20)
-        [{message:"hoge"}]
-      end
-
-      desc 'Return a personal timeline.'
-      get :home_timeline do
-        authenticate!
-        current_user.statuses.limit(20)
-      end
-
-      desc 'Return a status.'
-      params do
-        requires :id, type: Integer, desc: 'Status id.'
-      end
-      route_param :id do
-        get do
-          Status.find(params[:id])
-        end
-      end
-
-      desc 'Create a status.'
-      params do
-        requires :status, type: String, desc: 'Your status.'
-      end
-      post do
-        authenticate!
-        Status.create!({
-          user: current_user,
-          text: params[:status]
-        })
-      end
-
-      desc 'Update a status.'
-      params do
-        requires :id, type: String, desc: 'Status ID.'
-        requires :status, type: String, desc: 'Your status.'
-      end
-      put ':id' do
-        authenticate!
-        current_user.statuses.find(params[:id]).update({
-          user: current_user,
-          text: params[:status]
-        })
-      end
-
-      desc 'Delete a status.'
-      params do
-        requires :id, type: String, desc: 'Status ID.'
-      end
-      delete ':id' do
-        authenticate!
-        current_user.statuses.find(params[:id]).destroy
-      end
-    end
-  end
-end</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_rails側の設定_2">Rails側の設定</h5>
-<div class="sect5">
-<h6 id="_appapi_配下のファイルの読み込み_2">/app/api 配下のファイルの読み込み</h6>
-<div class="paragraph">
-<p>Railsでapiファイルを自動で読み込む<br>
-<a href="https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/application.rb">/config/application.rb</a><br>
-(<a href="#first-grap">最初の一歩</a> と同じ設定のままでOK)</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_apiのルーティングを追加_2">APIのルーティングを追加</h6>
-<div class="paragraph">
-<p><a href="https://github.com/yambal/Ruby-Grape-Basic/blob/master/config/routes.rb">/config/routes.rb</a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>mount Twitter::API =&gt; '/twitter/'</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_動作確認_2">動作確認</h5>
-<div class="listingblock">
-<div class="content">
-<pre>curl http://localhost:3000/twitter/api/statuses/public_timeline</pre>
-</div>
-</div>
+<pre>ruby -v</pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="grape-entity">3.2. Grap::Entity</h3>
+<h3 id="_ruby_installer">1.2. Ruby Installer</h3>
 <div class="paragraph">
-<p>この gem は、Grape などのAPIフレームワークに エンティティサポート を追加します。Grape&#8217;s Entityは、オブジェクトモデルの最上位に位置するAPIフォーカスファサードです。</p>
+<p>Windowsの場合は、Ruby Installerを使用する<br>
+<a href="https://rubyinstaller.org/downloads/">Ruby Installer</a></p>
 </div>
-<div class="sect3">
-<h4 id="_インストール">3.2.1. インストール</h4>
+</div>
+<div class="sect2">
+<h3 id="_どのバージョンをダウンロードするのですか">1.3. どのバージョンをダウンロードするのですか？</h3>
+<div class="listingblock">
+<div class="content">
+<pre>インストールするバージョンがわからず、Rubyを使い始める前に、Ruby + Devkit 2.5.Xをx64またはx86インストーラとして使用することをお勧めします。これらは互換性のある宝石の中で最大の数を提供し、Rubyと並んでMSYS2-Devkitをインストールするので、C拡張機能を備えた宝石は即座にコンパイルできます。</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rails_で_sglite3_系エラー">1.4. Rails で sglite3 系エラー</h3>
 <div class="paragraph">
-<p>Gemfile</p>
+<p>WindowsでRailsTutorialを行っていると、下記のようなエラーが出る場合があります。その場合、Windowsに合わせたsoファイルの作成が必要です。</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>gem 'grape-entity'</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>bundle install</pre>
-</div>
+<pre>cannot load such file -- sqlite3/sqlite3_native (LoadError)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_エンティティの定義">3.2.2. エンティティの定義</h4>
+<h4 id="_sqlite3のインストール">1.4.1. sqlite3のインストール</h4>
 <div class="paragraph">
-<p>エンティティは Grape::Entity から継承し、単純なDSLを定義します。</p>
+<p><a href="https://www.sqlite.org/download.html">こちら</a>から環境に応じたdllとソースファイルをダウロードして展開</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -802,35 +509,71 @@ end</pre>
 <div class="title">Note</div>
 </td>
 <td class="content">
-Entity = 実態<br>
-類義語として「インスタンス」、「オブジェクト」など。
+2018-12-18時点で動作確認済の内容です。適時バージョンなどは確認すること。
 </td>
 </tr>
 </table>
 </div>
-<div style="page-break-after: always;"></div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">ソースファイル</dt>
+<dd>
+<p>sqlite-amalgamation-3260000.zip<br>
+任意：例えば C直下に移動して c\sqlite-amalgamation-3260000 とするなど</p>
+</dd>
+<dt class="hdlist1">DLL</dt>
+<dd>
+<p>sqlite-dll-win64-x64-3260000.zip<br>
+dll を Rubyのbinフォルダに移動</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_コマンド実行">1.4.2. コマンド実行</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+パスは読み替えること
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>gem install sqlite3 --platform=ruby -- --with-sqlite3-include=C:/sqlite-amalgamation-3260000 --with-sqlite3-lib=C:\Ruby25-x64\bin</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>soファイルが生成されます</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\sqlite3-1.3.13\lib\sqlite3\sqlite3_native.so</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>soファイルを以下のディレクトリにコピーします</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\sqlite3-1.3.13-x64-mingw32\lib\sqlite3\2.5</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>コマンドなら、以下のようになります</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mkdir C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\sqlite3-1.3.13-x64-mingw32\lib\sqlite3\2.5
+copy C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\sqlite3-1.3.13\lib\sqlite3\sqlite3_native.so C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\sqlite3-1.3.13-x64-mingw32\lib\sqlite3\2.5</pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_参考資料">4. 参考資料</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://qiita.com/techno-tanoC/items/1aabd698e8fd912c699f"><strong>Rails&amp;grapeで簡単WebAPI</strong> @Qiita</a></p>
-</li>
-<li>
-<p><a href="https://qiita.com/kadotami/items/6cd455122acedf9510f2">Rails(Grape)でAPIを作成する備忘録1 @Qiita</a></p>
-</li>
-<li>
-<p><a href="https://qiita.com/takusemba/items/a86796aa3c207155c579">railsでGrapeを使ってAPI作成、プラス例外処理 @Qiita</a></p>
-</li>
-<li>
-<p><a href="https://dev.classmethod.jp/server-side/ruby-on-rails/ruby-on-rails_create_grape_web-api/">Grapeを使ってWeb APIを作成する @DevelopersIO</a></p>
-</li>
-</ul>
 </div>
 </div>
 </div>
@@ -838,7 +581,7 @@ Entity = 実態<br>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2018-12-18 20:34:37 +0900
+Last updated 2018-12-19 02:15:59 +0900
 </div>
 </div>
 </body>

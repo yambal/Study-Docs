@@ -5,6 +5,7 @@ module.exports = function(grunt) {
           page: {
               command: [
                 'asciidoctor -b html5 -o docs/index.html index.asciidoc',
+                'asciidoctor -b html5 -o docs/RubyForDummies.html RubyForDummies.asciidoc',
                 'asciidoctor -b html5 -o docs/Gem.html Gem.asciidoc',
                 'asciidoctor -b html5 -o docs/Grape.html Grape.asciidoc',
                 'asciidoctor -b html5 -o docs/RubyApplication.html RubyApplication.asciidoc',
@@ -14,12 +15,13 @@ module.exports = function(grunt) {
           },
             pdf: {
                 command: [
-                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./index.asciidoc -o docs/pdf/index.pdf',
-                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Gem.asciidoc -o docs/pdf/Gem.pdf',
-                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Grape.asciidoc -o docs/pdf/Grape.pdf',
-                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./RubyApplication.asciidoc -o docs/pdf/RubyApplication.pdf',
-                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Rack.asciidoc -o docs/pdf/Rack.pdf',
-                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Asciidoc.asciidoc -o docs/pdf/Asciidoc.pdf'
+                  //'asciidoctor-pdf -r asciidoctor-pdf-cjk ./index.asciidoc -o docs/pdf/index.pdf',
+                  'asciidoctor-pdf -r asciidoctor-pdf-cjk ./RubyForDummies.asciidoc -o docs/pdf/RubyForDummies.pdf',
+                  //'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Gem.asciidoc -o docs/pdf/Gem.pdf',
+                  //'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Grape.asciidoc -o docs/pdf/Grape.pdf',
+                  //'asciidoctor-pdf -r asciidoctor-pdf-cjk ./RubyApplication.asciidoc -o docs/pdf/RubyApplication.pdf',
+                  //'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Rack.asciidoc -o docs/pdf/Rack.pdf',
+                  //'asciidoctor-pdf -r asciidoctor-pdf-cjk ./Asciidoc.asciidoc -o docs/pdf/Asciidoc.pdf',
                 ].join('&&')
             }
         }
