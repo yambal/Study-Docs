@@ -1,0 +1,136 @@
+:lang: ja
+:doctype: book
+:toc-title: 目次
+:toc: left
+:chapter-label:
+:sectnums:
+:docname: はじめての Ruby on Rails on Heroku（Windows環境）
+:author: やまもとじゅん
+:revnumber: 0.1
+:revdate: 2018/12/19
+
+= はじめての Ruby on Rails on Heroku（Windows環境）
+[.lead]
+Heroku で Ruby on Rails アプリを公開する手順。開発環境は Windows(10)。手元で RoRアプリが作成できる/作成していることが前提。
+
+== 概要
+rails create hoge で作成したRoRアプリ（チュートリアル的なアプリ）では DBは sqlite3 となっている。これは手軽で便利だけど Heroku では使用できない。 +
+開発環境（ローカル）では sqlite3 を使用し、本番環境（Heroku）では PostgreSQL を使う設定を行います。 +
+また、Heroku へデプロイする手順も。
+
+== 準備
+=== Ruby on Rails
+なにはともあれ、RoRアプリが *無いなら作る* +
+下記は heroku_app というアプリを作成し、起動してみる例
+----
+rails new heroku_app
+cd heroku_app
+rails s
+----
+blog モデル をマイグレーションする例
+----
+rails g scaffold blog title:string body:text
+rake db:migrate
+----
+==== トップページを何かしらに設定
+config/routes.rb
+----
+Rails.application.routes.draw do
+  resources :blog
+  root 'blog#index'
+end
+----
+確認
+----
+rails s
+----
+http://localhost:3000
+
+==== 環境ごとのデータベースの変更
+sqlite は手軽で便利ですが、Heroku では使用できません。Heroku（本番環境:production）でPostgreSQLを使う設定をします。
+
+===== Gemfileの設定
+====== デフォルトの sqlite3 をコメントアウト
+↓Gemfile
+----
+# sqlite3
+----
+====== 開発とテストでは sqlite3 を使う設定
+development(開発)、test(テスト)では sqlite3 を使いますよ、という設定 +
+group :development, :test do 内部に追加 +
+↓Gemfile
+----
+group :development, :test do
+  gem 'sqlite3' #do ~ end内部に追加。他のgemは残してください。
+end
+----
+====== 本番環境では PostgreSQL を使う設定
+production（本番環境）では pg（PostgreSQL）を使いますよ、という設定 +
+そのまま Gemfile に追記
+----
+group :production do
+  gem 'pg'
+end
+----
+====== 反映
+Gemfile を更新したので bundle install *ただしオプション付き*
+----
+bundle install --without production
+----
+NOTE: このオプションは一度打ち込めば、アプリ内部の/bundle/configというところに書き込まれるため、それ以降は--without producitonを打たなくても本番環境以外のgemをインストールしてくれるようになります。
+
+===== config/datebase.ymlの設定
+実際にデータベースと接続する記述 +
+↓config/database.yml 書き換え
+----
+production:
+  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+----
+adapter: postgresql::
+postgreSQLのデータベースに接続します。
+encoding: unicode::
+unicodeという文字コードを使用します。
+pool: 5::
+DBに接続できる上限の数を決めます。今回は5。
+
+=== Heroku の準備
+==== アカウント作成
+Heroku アカウントが *無いなら作る*
+
+==== Heroku CLI
+herokuの機能を自分のPCに紐付けましょう。cliをダウンロードします。 +
+https://devcenter.heroku.com/articles/heroku-cli[*The Heroku CLI* @Heroku Dev Center] でDownload and install
+
+==== Heroku の確認
+再起動が必要な場合もある
+----
+heroku -v
+----
+== Heroku にデプロイする
+=== はじめてのデプロイ
+==== PCからHerokuにログイン
+----
+heroku login
+----
+==== Herokuでアプリを登録
+アプリ名はURLになるので _ が使えないなどのルールがある。すでに登録済みのアプリ名は使用できない
+----
+heroku create 好きなアプリ名
+----
+=== Heroku へのデプロイ
+----
+git push heroku master
+...(アプリ名を含んだURLが表示される)
+----
+==== 本番環境でのデータベースのマイグレーション
+----
+heroku run rails db:migrate
+----
+以上でHerokuでのデプロイは完了 +
+URLにアクセスして確認
+
+== 参考
+* https://qiita.com/kazukimatsumoto/items/a0daa7281a3948701c39[*【初心者向け】railsアプリをherokuを使って確実にデプロイする方法【決定版】* @Qiita]

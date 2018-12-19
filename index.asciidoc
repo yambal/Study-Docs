@@ -10,6 +10,7 @@
 * http://study.yambal.net/RubbyApplication.html[application.rb の役割]
 * http://study.yambal.net/Grape.html[Grapeとは何か]
 * http://study.yambal.net/Rack.html[Rackとは何か]
+* http://study.yambal.net/HerokuRoR.html[はじめての Ruby on Rails on Heroku（Windows環境）]
 
 === Asciidoc
 * http://study.yambal.net/Asciidoc.html[Asciidoc]

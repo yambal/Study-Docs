@@ -5,7 +5,8 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>やまじゅんの学習ノート</title>
+<meta name="author" content="[.lead]">
+<title>はじめての Ruby on Rails on Heroku（Windows環境）</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -430,62 +431,294 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="book toc2 toc-left">
 <div id="header">
-<h1>やまじゅんの学習ノート</h1>
+<h1>はじめての Ruby on Rails on Heroku（Windows環境）</h1>
+<div class="details">
+<span id="author" class="author">やまもとじゅん</span><br>
+<span id="revnumber">version 0.1,</span>
+<span id="revdate">2018/12/19</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_概要">1. 概要</a></li>
+<li><a href="#_準備">2. 準備</a>
+<ul class="sectlevel2">
+<li><a href="#_ruby_on_rails">2.1. Ruby on Rails</a></li>
+<li><a href="#_heroku_の準備">2.2. Heroku の準備</a></li>
+</ul>
+</li>
+<li><a href="#_heroku_にデプロイする">3. Heroku にデプロイする</a>
+<ul class="sectlevel2">
+<li><a href="#_はじめてのデプロイ">3.1. はじめてのデプロイ</a></li>
+<li><a href="#_heroku_へのデプロイ">3.2. Heroku へのデプロイ</a></li>
+</ul>
+</li>
+<li><a href="#_参考">4. 参考</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="_概要">1. 概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>これは学習のメモである</p>
+<p>rails create hoge で作成したRoRアプリ（チュートリアル的なアプリ）では DBは sqlite3 となっている。これは手軽で便利だけど Heroku では使用できない。<br>
+開発環境（ローカル）では sqlite3 を使用し、本番環境（Heroku）では PostgreSQL を使う設定を行います。<br>
+また、Heroku へデプロイする手順も。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_index">INDEX</h2>
+<h2 id="_準備">2. 準備</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_ruby">Ruby</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://study.yambal.net/RubyForDummies.html">サルでもわかるRuby（Windows）</a></p>
-</li>
-<li>
-<p><a href="http://study.yambal.net/Gem.html">Gem, Bundle, Gememfile</a></p>
-</li>
-<li>
-<p><a href="http://study.yambal.net/RubbyApplication.html">application.rb の役割</a></p>
-</li>
-<li>
-<p><a href="http://study.yambal.net/Grape.html">Grapeとは何か</a></p>
-</li>
-<li>
-<p><a href="http://study.yambal.net/Rack.html">Rackとは何か</a></p>
-</li>
-<li>
-<p><a href="http://study.yambal.net/HerokuRoR.html">はじめての Ruby on Rails on Heroku（Windows環境）</a></p>
-</li>
-</ul>
+<h3 id="_ruby_on_rails">2.1. Ruby on Rails</h3>
+<div class="paragraph">
+<p>なにはともあれ、RoRアプリが <strong>無いなら作る</strong><br>
+下記は heroku_app というアプリを作成し、起動してみる例</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>rails new heroku_app
+cd heroku_app
+rails s</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>blog モデル をマイグレーションする例</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>rails g scaffold blog title:string body:text
+rake db:migrate</pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_トップページを何かしらに設定">2.1.1. トップページを何かしらに設定</h4>
+<div class="paragraph">
+<p>config/routes.rb</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Rails.application.routes.draw do
+  resources :blog
+  root 'blog#index'
+end</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>確認</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>rails s</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="http://localhost:3000" class="bare">http://localhost:3000</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_環境ごとのデータベースの変更">2.1.2. 環境ごとのデータベースの変更</h4>
+<div class="paragraph">
+<p>sqlite は手軽で便利ですが、Heroku では使用できません。Heroku（本番環境:production）でPostgreSQLを使う設定をします。</p>
+</div>
+<div class="sect4">
+<h5 id="_gemfileの設定">Gemfileの設定</h5>
+<div class="sect5">
+<h6 id="_デフォルトの_sqlite3_をコメントアウト">デフォルトの sqlite3 をコメントアウト</h6>
+<div class="paragraph">
+<p>↓Gemfile</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># sqlite3</pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_開発とテストでは_sqlite3_を使う設定">開発とテストでは sqlite3 を使う設定</h6>
+<div class="paragraph">
+<p>development(開発)、test(テスト)では sqlite3 を使いますよ、という設定<br>
+group :development, :test do 内部に追加<br>
+↓Gemfile</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>group :development, :test do
+  gem 'sqlite3' #do ~ end内部に追加。他のgemは残してください。
+end</pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_本番環境では_postgresql_を使う設定">本番環境では PostgreSQL を使う設定</h6>
+<div class="paragraph">
+<p>production（本番環境）では pg（PostgreSQL）を使いますよ、という設定<br>
+そのまま Gemfile に追記</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>group :production do
+  gem 'pg'
+end</pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_反映">反映</h6>
+<div class="paragraph">
+<p>Gemfile を更新したので bundle install <strong>ただしオプション付き</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bundle install --without production</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+このオプションは一度打ち込めば、アプリ内部の/bundle/configというところに書き込まれるため、それ以降は&#8212;&#8203;without producitonを打たなくても本番環境以外のgemをインストールしてくれるようになります。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_configdatebase_ymlの設定">config/datebase.ymlの設定</h5>
+<div class="paragraph">
+<p>実際にデータベースと接続する記述<br>
+↓config/database.yml 書き換え</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>production:
+  &lt;&lt;: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5</pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">adapter: postgresql</dt>
+<dd>
+<p>postgreSQLのデータベースに接続します。</p>
+</dd>
+<dt class="hdlist1">encoding: unicode</dt>
+<dd>
+<p>unicodeという文字コードを使用します。</p>
+</dd>
+<dt class="hdlist1">pool: 5</dt>
+<dd>
+<p>DBに接続できる上限の数を決めます。今回は5。</p>
+</dd>
+</dl>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_asciidoc">Asciidoc</h3>
+<h3 id="_heroku_の準備">2.2. Heroku の準備</h3>
+<div class="sect3">
+<h4 id="_アカウント作成">2.2.1. アカウント作成</h4>
+<div class="paragraph">
+<p>Heroku アカウントが <strong>無いなら作る</strong></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_heroku_cli">2.2.2. Heroku CLI</h4>
+<div class="paragraph">
+<p>herokuの機能を自分のPCに紐付けましょう。cliをダウンロードします。<br>
+<a href="https://devcenter.heroku.com/articles/heroku-cli"><strong>The Heroku CLI</strong> @Heroku Dev Center</a> でDownload and install</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_heroku_の確認">2.2.3. Heroku の確認</h4>
+<div class="paragraph">
+<p>再起動が必要な場合もある</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>heroku -v</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_heroku_にデプロイする">3. Heroku にデプロイする</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_はじめてのデプロイ">3.1. はじめてのデプロイ</h3>
+<div class="sect3">
+<h4 id="_pcからherokuにログイン">3.1.1. PCからHerokuにログイン</h4>
+<div class="listingblock">
+<div class="content">
+<pre>heroku login</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_herokuでアプリを登録">3.1.2. Herokuでアプリを登録</h4>
+<div class="paragraph">
+<p>アプリ名はURLになるので _ が使えないなどのルールがある。すでに登録済みのアプリ名は使用できない</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>heroku create 好きなアプリ名</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_heroku_へのデプロイ">3.2. Heroku へのデプロイ</h3>
+<div class="listingblock">
+<div class="content">
+<pre>git push heroku master
+...(アプリ名を含んだURLが表示される)</pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_本番環境でのデータベースのマイグレーション">3.2.1. 本番環境でのデータベースのマイグレーション</h4>
+<div class="listingblock">
+<div class="content">
+<pre>heroku run rails db:migrate</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>以上でHerokuでのデプロイは完了<br>
+URLにアクセスして確認</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_参考">4. 参考</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://study.yambal.net/Asciidoc.html">Asciidoc</a></p>
+<p><a href="https://qiita.com/kazukimatsumoto/items/a0daa7281a3948701c39"><strong>【初心者向け】railsアプリをherokuを使って確実にデプロイする方法【決定版】</strong> @Qiita</a></p>
 </li>
 </ul>
-</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-12-19 13:14:17 +0900
+Version 0.1<br>
+Last updated 2018-12-19 13:11:51 +0900
 </div>
 </div>
 </body>
